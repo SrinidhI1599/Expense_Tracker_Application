@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Specify the character encoding for the document -->
+    <meta charset="UTF-8">
+    <!-- Ensure proper rendering and touch zooming for all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the webpage -->
+    <title>Expense Tracker</title>
+    <!-- Internal CSS for styling the page -->
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Use Arial font for better readability */
+            margin: 20px; /* Add spacing around the page */
+        }
+        .container {
+            max-width: 600px; /* Limit the container width to 600px */
+            margin: 0 auto; /* Center the container */
+        }
+        .expense-item {
+            border-bottom: 1px solid #ccc; /* Add a divider between expense items */
+            padding: 10px 0; /* Add spacing inside each expense item */
+        }
+        .total {
+            font-weight: bold; /* Highlight the total expense */
+            margin-top: 20px; /* Add spacing above the total section */
+        }
+        .buttons {
+            margin-top: 20px; /* Add spacing above the buttons section */
+        }
+        button {
+            margin-right: 10px; /* Add spacing between buttons */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for the expense tracker -->
+    <div class="container">
+        <h1>Expense Tracker</h1>
+
+        <!-- Input for expense description -->
+        <div>
+            <label for="description">Description:</label>
+            <input type="text" id="description">
+        </div>
+
+        <!-- Input for expense amount -->
+        <div>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" step="0.01"> <!-- Step ensures decimal input -->
+        </div>
+
+        <!-- Input for expense date -->
+        <div>
+            <label for="date">Date:</label>
+            <input type="date" id="date">
+        </div>
+
+        <!-- Buttons for different actions -->
+        <div class="buttons">
+            <button id="addExpenseBtn">Add Expense</button>
+            <button id="viewExpensesBtn">View All Expenses</button>
+            <button id="viewTotalBtn">Total Expenses</button>
+        </div>
+
+        <!-- Section to display expenses -->
+        <h2>Expenses</h2>
+        <div id="expensesList"></div>
+
+        <!-- Section to display the total expenses -->
+        <div class="total" id="totalExpenses">Total Expenses: $0.00</div>
+    </div>
+
+    <!-- JavaScript for handling expense tracker functionality -->
+    <script>
+        // Initialize an array to store expenses
+        const expenses = [];
+
+        // Add event listener to the "Add Expense" button
+        document.getElementById('addExpenseBtn').addEventListener('click', () => {
+            // Get input values from the form
+            const description = document.getElementById('description').value;
+            const amount = parseFloat(document.getElementById('amount').value); // Convert to number
+            const date = document.getElementById('date').value;
+
+            // Validate input values
+            if (!description || isNaN(amount) || !date) {
+                alert('Please fill out all fields with valid values.'); // Show alert for invalid input
+                return; // Exit the function
+            }
+
+            // Create a new expense object
+            const expense = { description, amount, date };
+            // Add the expense object to the expenses array
+            expenses.push(expense);
+
+            // Notify the user that the expense was added
+            alert('Expense added successfully!');
+        });
+
+        // Add event listener to the "View All Expenses" button
+        document.getElementById('viewExpensesBtn').addEventListener('click', () => {
+            // Update the list of displayed expenses
+            updateExpensesList();
+        });
+
+        // Add event listener to the "Total Expenses" button
+        document.getElementById('viewTotalBtn').addEventListener('click', () => {
+            // Calculate the total of all expenses
+            const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            // Update the total expenses display
+            document.getElementById('totalExpenses').textContent = `Total Expenses: $${total.toFixed(2)}`;
+        });
+
+        // Function to update the displayed list of expenses
+        function updateExpensesList() {
+            // Get the container for the expenses list
+            const expensesList = document.getElementById('expensesList');
+            // Clear any existing content in the list
+            expensesList.innerHTML = '';
+
+            // If there are no expenses, show a message
+            if (expenses.length === 0) {
+                expensesList.textContent = 'No expenses to display.';
+                return; // Exit the function
+            }
+
+            // Loop through the expenses array and create elements for each expense
+            expenses.forEach(expense => {
+                // Create a new div element for the expense
+                const expenseDiv = document.createElement('div');
+                expenseDiv.className = 'expense-item'; // Apply styling
+                // Set the content of the div to show expense details
+                expenseDiv.textContent = `${expense.date}: ${expense.description} - $${expense.amount.toFixed(2)}`;
+                // Add the div to the expenses list container
+                expensesList.appendChild(expenseDiv);
+            });
+        }
+    </script>
+</body>
+</html>
