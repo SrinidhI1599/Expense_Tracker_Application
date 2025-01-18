@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+label {
+    display: block;
+    margin-top: 10px;
+}
+input {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+}
+button {
+    margin: 5px 0;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.expense-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+.total {
+    font-weight: bold;
+    margin-top: 20px;
+}
